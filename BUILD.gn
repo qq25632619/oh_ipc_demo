@@ -1,0 +1,44 @@
+# Copyright (c) 2026 OpenHarmony.
+# Licensed under the Apache License, Version 2.0.
+
+import("//build/ohos.gni")
+
+config("ipc_demo_config") {
+  include_dirs = [ "include" ]
+}
+
+ohos_source_set("ipc_demo_common") {
+  sources = [ "src/ipc_demo_socket.c" ]
+  public_configs = [ ":ipc_demo_config" ]
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
+ohos_executable("ipca") {
+  sources = [ "src/ipca.c" ]
+  deps = [ ":ipc_demo_common" ]
+  configs = [ ":ipc_demo_config" ]
+  install_enable = true
+  install_images = [ "system" ]
+  module_install_dir = "bin"
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
+ohos_executable("ipcb") {
+  sources = [ "src/ipcb.c" ]
+  deps = [ ":ipc_demo_common" ]
+  configs = [ ":ipc_demo_config" ]
+  install_enable = true
+  install_images = [ "system" ]
+  module_install_dir = "bin"
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
+group("ipc_demo") {
+  deps = [
+    ":ipca",
+    ":ipcb",
+  ]
+}

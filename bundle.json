@@ -1,0 +1,35 @@
+{
+  "name": "@ohos/ipc_demo",
+  "description": "Native Unix domain socket IPC demo for rk3568.",
+  "version": "1.0.0",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "applications/sample/ipc_demo"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "ipc_demo",
+    "subsystem": "applications",
+    "syscap": [],
+    "features": [],
+    "adapted_system_type": [
+      "standard"
+    ],
+    "rom": "0KB",
+    "ram": "0KB",
+    "deps": {
+      "components": [],
+      "third_party": []
+    },
+    "build": {
+      "sub_component": [
+        "//applications/sample/ipc_demo:ipca",
+        "//applications/sample/ipc_demo:ipcb"
+      ],
+      "inner_kits": [],
+      "test": []
+    }
+  }
+}
