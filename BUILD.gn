@@ -7,6 +7,7 @@ config("ipc_demo_config") {
   include_dirs = [ "include" ]
 }
 
+# Legacy simple IPC demo
 ohos_source_set("ipc_demo_common") {
   sources = [ "src/ipc_demo_socket.c" ]
   public_configs = [ ":ipc_demo_config" ]
@@ -36,9 +37,39 @@ ohos_executable("ipcb") {
   subsystem_name = "applications"
 }
 
+# New reliable IPC demo with binary protocol
+ohos_source_set("ipc_reliable_common") {
+  sources = [ "src/ipc_reliable.c" ]
+  public_configs = [ ":ipc_demo_config" ]
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
+ohos_executable("ipc_server") {
+  sources = [ "src/ipc_server.c" ]
+  deps = [ ":ipc_reliable_common" ]
+  configs = [ ":ipc_demo_config" ]
+  install_enable = true
+  install_images = [ "system" ]
+  module_install_dir = "bin"
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
+ohos_executable("ipc_client") {
+  sources = [ "src/ipc_client.c" ]
+  deps = [ ":ipc_reliable_common" ]
+  configs = [ ":ipc_demo_config" ]
+  install_enable = true
+  install_images = [ "system" ]
+  module_install_dir = "bin"
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
 group("ipc_demo") {
   deps = [
-    ":ipca",
-    ":ipcb",
+    ":ipc_server",
+    ":ipc_client",
   ]
 }
