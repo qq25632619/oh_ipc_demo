@@ -30,10 +30,7 @@
 #include <time.h>
 
 /* OpenHarmony IPC C API */
-#include "IPCKit/ipc_cparcel.h"
-#include "IPCKit/ipc_cremote_object.h"
-#include "IPCKit/ipc_cskeleton.h"
-#include "IPCKit/ipc_error_code.h"
+#include "ipc_kit.h"
 
 /* ==================== 日志系统 ==================== */
 
@@ -87,6 +84,13 @@ typedef enum {
     STATE_DISCONNECTED,   /* 已断开 */
     STATE_ERROR           /* 错误状态 */
 } OhIpcState;
+
+/* ==================== 内存分配器 ==================== */
+
+static void* OhIpcMemAllocator(int32_t len)
+{
+    return malloc(len);
+}
 
 /* ==================== 内部上下文 ==================== */
 
@@ -181,7 +185,7 @@ static int ServerOnRequest(uint32_t code, const OHIPCParcel *data,
     char *token = NULL;
     int32_t tokenLen = 0;
     if (OH_IPCParcel_ReadInterfaceToken(data, &token, &tokenLen, 
-                                         [](int32_t len) -> void* { return malloc(len); }) == OH_IPC_SUCCESS) {
+                                         OhIpcMemAllocator) == OH_IPC_SUCCESS) {
         /* 验证token */
         char expected[256];
         snprintf(expected, sizeof(expected), "%s%s", 

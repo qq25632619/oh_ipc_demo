@@ -75,6 +75,7 @@ ohos_source_set("samgr_wrapper") {
   public_configs = [ ":ipc_demo_config" ]
   external_deps = [
     "samgr:samgr_proxy",
+    "c_utils:utils",
   ]
   part_name = "ipc_demo"
   subsystem_name = "applications"

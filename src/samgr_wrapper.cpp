@@ -12,21 +12,20 @@
  *   ]
  */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* C++头文件 */
 #include <cstdint>
 #include <string>
 
 /* OpenHarmony C++头文件 */
 #include "iservice_registry.h"
-#include "system_ability_manager_client.h"
 #include "iremote_object.h"
 #include "ipc_object_stub.h"
 
 using namespace OHOS;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * @brief 注册系统服务到SAMgr
@@ -47,18 +46,14 @@ int OH_SAMgr_AddSystemAbility(int32_t saId, void *stub)
         return -2;
     }
     
-    /* stub实际上是一个IPCObjectStub，需要转换为IRemoteObject */
-    /* 注意：这里需要根据实际对象类型转换 */
+    /* stub实际上是一个IPCObjectStub，它继承自IRemoteObject */
     IPCObjectStub *ipcStub = reinterpret_cast<IPCObjectStub*>(stub);
     if (!ipcStub) {
         return -3;
     }
     
-    /* 转换为IRemoteObject并注册 */
-    sptr<IRemoteObject> remoteObj = ipcStub->AsObject();
-    if (!remoteObj) {
-        return -4;
-    }
+    /* IPCObjectStub 继承自 IRemoteObject，可以直接使用 */
+    sptr<IRemoteObject> remoteObj = ipcStub;
     
     int ret = samgr->AddSystemAbility(saId, remoteObj);
     return ret;

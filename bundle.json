@@ -22,7 +22,8 @@
     "deps": {
       "components": [
         "ipc",
-        "samgr"
+        "samgr",
+        "c_utils"
       ],
       "third_party": []
     },

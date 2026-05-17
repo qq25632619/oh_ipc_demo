@@ -227,6 +227,14 @@ uint64_t OhIpcGetTimestampMs(void);
 /* 接口描述符前缀（用于创建 Stub） */
 #define OHIPC_DESCRIPTOR_PREFIX "ohos.ipc.binder."
 
+/* 命令码定义 */
+#define OHIPC_CMD_REGISTER      0x01    /* 注册回调命令 */
+#define OHIPC_CMD_HEARTBEAT     0x02    /* 心跳命令 */
+#define OHIPC_CMD_DATA          0x03    /* 数据传输命令 */
+
+/* 客户端注册回调消息类型 */
+#define OHIPC_MSG_REGISTER_CB   0x10
+
 #ifdef __cplusplus
 }
 #endif
