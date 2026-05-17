@@ -37,7 +37,7 @@ ohos_executable("ipcb") {
   subsystem_name = "applications"
 }
 
-# New reliable IPC demo with binary protocol
+# Reliable IPC demo with binary protocol (Socket-based)
 ohos_source_set("ipc_reliable_common") {
   sources = [ "src/ipc_reliable.c" ]
   public_configs = [ ":ipc_demo_config" ]
@@ -67,9 +67,68 @@ ohos_executable("ipc_client") {
   subsystem_name = "applications"
 }
 
+# OpenHarmony Binder IPC demo - 完整版（使用SAMgr）
+# C++ wrapper for SAMgr
+ohos_source_set("samgr_wrapper") {
+  sources = [ "src/samgr_wrapper.cpp" ]
+  include_dirs = [ "include" ]
+  public_configs = [ ":ipc_demo_config" ]
+  external_deps = [
+    "samgr:samgr_proxy",
+  ]
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
+# Binder IPC core (C)
+ohos_source_set("oh_ipc_binder_common") {
+  sources = [ "src/oh_ipc_binder.c" ]
+  public_configs = [ ":ipc_demo_config" ]
+  deps = [ ":samgr_wrapper" ]
+  external_deps = [
+    "ipc:ipc_capi",
+  ]
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
+ohos_executable("ohipc_service") {
+  sources = [ "src/ohipc_service.c" ]
+  deps = [ ":oh_ipc_binder_common" ]
+  configs = [ ":ipc_demo_config" ]
+  external_deps = [
+    "ipc:ipc_capi",
+    "samgr:samgr_proxy",
+  ]
+  install_enable = true
+  install_images = [ "system" ]
+  module_install_dir = "bin"
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
+ohos_executable("ohipc_client") {
+  sources = [ "src/ohipc_client.c" ]
+  deps = [ ":oh_ipc_binder_common" ]
+  configs = [ ":ipc_demo_config" ]
+  external_deps = [
+    "ipc:ipc_capi",
+    "samgr:samgr_proxy",
+  ]
+  install_enable = true
+  install_images = [ "system" ]
+  module_install_dir = "bin"
+  part_name = "ipc_demo"
+  subsystem_name = "applications"
+}
+
 group("ipc_demo") {
   deps = [
-    ":ipc_server",
-    ":ipc_client",
+#    ":ipca",
+#    ":ipcb",
+#    ":ipc_server",
+#    ":ipc_client",
+    ":ohipc_service",
+    ":ohipc_client",
   ]
 }

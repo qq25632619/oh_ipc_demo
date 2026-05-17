@@ -1,7 +1,7 @@
 {
   "name": "@ohos/ipc_demo",
-  "description": "Native Unix domain socket IPC demo for rk3568.",
-  "version": "1.0.0",
+  "description": "Native IPC demo including Unix socket and OpenHarmony Binder IPC for rk3568.",
+  "version": "2.0.0",
   "license": "Apache License 2.0",
   "publishAs": "code-segment",
   "segment": {
@@ -20,13 +20,20 @@
     "rom": "0KB",
     "ram": "0KB",
     "deps": {
-      "components": [],
+      "components": [
+        "ipc",
+        "samgr"
+      ],
       "third_party": []
     },
     "build": {
       "sub_component": [
         "//applications/sample/ipc_demo:ipca",
-        "//applications/sample/ipc_demo:ipcb"
+        "//applications/sample/ipc_demo:ipcb",
+        "//applications/sample/ipc_demo:ipc_server",
+        "//applications/sample/ipc_demo:ipc_client",
+        "//applications/sample/ipc_demo:ohipc_service",
+        "//applications/sample/ipc_demo:ohipc_client"
       ],
       "inner_kits": [],
       "test": []
